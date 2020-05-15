@@ -109,3 +109,20 @@ npm i ts-node
 npx ts-node src/install-typescript.ts
 
 ```
+
+## 10 ts-node-dev の導入
+
+ファイルが修正されるたびにコンパイルと実行を行う。
+
+- インストール
+
+```
+npm i ts-node-dev --save-dev
+```
+
+- 実行(github:https://github.com/whitecolor/ts-node-dev)
+
+```
+npx ts-node-dev --respawn src/install-typescript.ts
+
+```
