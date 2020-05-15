@@ -126,3 +126,18 @@ npm i ts-node-dev --save-dev
 npx ts-node-dev --respawn src/install-typescript.ts
 
 ```
+
+## 11 vs-code インストール
+
+settings.json を変更する
+
+```
+  "prettier.semi": true,
+  "prettier.singleQuote": false,
+```
+
+- ts-config.json を作成する
+
+```
+ npx tsc --init
+```
