@@ -80,3 +80,15 @@ $ git clean -f
 Removing src/install-typescript.ts
 
 ```
+
+- master にマージする
+
+```
+git checkout -
+```
+
+ハイフンは前回のブランチ
+
+```
+git merge -
+```
