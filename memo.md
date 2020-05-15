@@ -92,3 +92,20 @@ git checkout -
 ```
 git merge -
 ```
+
+## 9 ts-node の導入
+
+コンパイルと実行を同時に行う。
+
+- インストール
+
+```
+npm i ts-node
+```
+
+- 実行
+
+```
+npx ts-node src/install-typescript.ts
+
+```
