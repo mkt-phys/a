@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/mkt-phys/udemy-typescript/issues"
   },
-  "homepage": "https://github.com/mkt-phys/udemy-typescript#readme"
+  "homepage": "https://github.com/mkt-phys/udemy-typescript#readme",
+  "devDependencies": {
+    "typescript": "^3.7.5"
+  }
 }
