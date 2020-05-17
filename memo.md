@@ -1,11 +1,13 @@
 # udemy TypeScript はむさん
 
-## 4 typescript とは
+### セクション 1
+
+### 4 typescript とは
 
 - TypeScript PlayGround
   MS が出しとるやつ遊び場
 
-## 7
+### 7
 
 ```
  git checkout -b create-package-json
@@ -13,7 +15,7 @@
 
 チェックアウトとリポジトリ作成を両方やる
 
-## 8 TypeScript をインストールする
+### 8 TypeScript をインストールする
 
 ```
 npm i typescript@3.7.5 --save-dev
@@ -93,7 +95,7 @@ git checkout -
 git merge -
 ```
 
-## 9 ts-node の導入
+### 9 ts-node の導入
 
 コンパイルと実行を同時に行う。
 
@@ -110,7 +112,7 @@ npx ts-node src/install-typescript.ts
 
 ```
 
-## 10 ts-node-dev の導入
+### 10 ts-node-dev の導入
 
 ファイルが修正されるたびにコンパイルと実行を行う。
 
@@ -127,7 +129,7 @@ npx ts-node-dev --respawn src/install-typescript.ts
 
 ```
 
-## 11 vs-code インストール
+### 11 vs-code インストール
 
 settings.json を変更する
 
@@ -141,3 +143,25 @@ settings.json を変更する
 ```
  npx tsc --init
 ```
+
+## セクション 2 基本的な型
+
+### 12 boolean
+
+src 下にファイルを作成する
+これで作ると変な文字が入ってコンパイルされない。
+
+```
+echo "export {};" > src/boolean.ts
+```
+
+- boolean.ts
+
+```
+export {};
+let name = "TypeScript";
+```
+
+export がないと name は警告が出る。変数 name は ts 側ですでに宣言されているので使えない。
+export してモジュール化してあげることで警告を回避できる。
+これからの講義で export{}をしばしば書く
