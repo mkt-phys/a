@@ -560,15 +560,240 @@ enum COLORS {
 }
 ```
 
-## セクション 3
+## セクション 3 関数で型を使う
 
-###
+### 30 function により関数定義（5 月 18 日）
 
-## セクション 4
+返り値に型を付ける
+`function ＜関数名＞: ＜numberとかstring＞`
+具体的には
+
+- function.ts
+
+```
+function bmi(height: number, weight: number): number {
+  return weight / height ** 2;
+}
+console.log(bmi(1.8, 65));
+```
+
+### 31 無名関数
+
+- 無名関数のアノテーション
+  `=`の前後で分けて考える
+  - `=`の前： `（引数のアノテーション）=>(返り値のアノテーション)`
+  - `=`の後：いつも通り
+
+* anonymous-function.ts
+
+```
+let bmi: (height: number, weight: number) => number = function (
+  height: number,
+  weight: number
+): number {
+  return weight / height ** 2;
+};
+```
+
+### 32 アロー関数のアノテーション
+
+アロー関数は`return`を省略できる
+
+```
+let bmi: (weight: number, height: number) => number = (
+  weight: number,
+  height: number
+): number => weight / height ** 2;
+
+console.log(bmi(65, 1.8));
+```
+
+### 33 オプショナルなパラメータ（引数）を定義する
+
+書いても書かなくてもよい引数の書き方。
+`bmi(1.8,67,true)`でも`bmi(1.8,67)`でも実行できるようにする。つまり第 3 引数を入れるか入れないかは任意とすることが目的
+結論は`＜変数名＞?:＜型＞`のように?を付けるだけで OK
+講義では関数のアノテーションにも`?`を付けているがコードを動かすだけなら引数だけに`?`を付けるだけでよい。
+
+- optional-arguments.ts
+  1 行目の`?`は無くても動く
+
+```
+let bmi: (height: number, weight: number, printable?: boolean) => number = (
+  height: number,
+  weight: number,
+  printable?: boolean
+): number => {
+  const bmi: number = weight / height ** 2;
+  if (printable) {
+    console.log({ bmi });
+  }
+  return bmi;
+};
+
+bmi(1.9, 65, true);//動く
+bmi(1.9,65)//動く
+bmi(1.9)//エラー
+```
+
+### 34 デフォルトパラメータの設定
+
+関数を実行する時に引数を指定しなかった場合に関数側で引数を（デフォルトで）指定するもの。TypeScript 特有の機能ではなく JavaScript にもともとある機能
+
+関数の引数に`rate: number = 1.1`のようにしておくと引数で値が指定されなかったら値が rate の値が 1.1 になる
+
+- default-parameters.ts
+
+```
+const nextYearSalary = (currentSalary: number, rate: number = 1.1) => {
+  return currentSalary * rate;
+};
+
+console.log(nextYearSalary(1000, 1.05)); //1050
+console.log(nextYearSalary(1000)); //1100
+```
+
+### 35 Rest パラメータの設定
+
+JS にもともとあったパラメータの一つ
+
+引数が何個あるか不明な時に使う。
+`...value`スプレッド演算子を使っている。
+
+- rest-parameters.ts
+
+```
+const reducer = (accumulator: number, currentValue: number) => {
+  return accumulator + currentValue;
+};
+
+const sum: (...values: number[]) => number = (...values: number[]): number => {
+  return values.reduce(reducer);
+};
+
+console.log(sum(1, 2, 3, 4, 5));
+```
+
+- 関数 reduce の使い方
+  - コード
+    1. reduce の引数に関数を取る
+    2. return で返した値が accumulator に入る
+    3. 繰り返し
+
+`reduce(＜関数＞,＜accumulatorの初期値＞)`具体的には`reduce(sumCalc,10)`
+
+```
+const numbers=[1,2,4,8,16]
+const sumCalc = (accumulator, currentValue, currentIndex, array)=> {
+  console.log({accumulator, currentValue, currentIndex, array})
+  return accumulator + currentValue
+}
+
+console.log(`[${numbers}]の合計値は${numbers.reduce(sumCalc,10)}`)
+```
+
+- 出力
+
+```
+{
+  accumulator: 1,
+  currentValue: 2,
+  currentIndex: 1,
+  array: [ 1, 2, 4, 8, 16 ]
+}
+{
+  accumulator: 3,
+  currentValue: 4,
+  currentIndex: 2,
+  array: [ 1, 2, 4, 8, 16 ]
+}
+{
+  accumulator: 7,
+  currentValue: 8,
+  currentIndex: 3,
+  array: [ 1, 2, 4, 8, 16 ]
+}
+{
+  accumulator: 15,
+  currentValue: 16,
+  currentIndex: 4,
+  array: [ 1, 2, 4, 8, 16 ]
+}
+'[1,2,4,8,16]の合計値は31'
+```
+
+### 36 オーバーロード
+
+同じ名前の関数で引数、返り値の型が違う関数を作りたい。
+
+1. シグネチャーを宣言する
+2. 引数も返り値も any 型の関数を作る（any にしてもよいのはシグネチャー側で型を制限しているため）
+
+- overloads.ts
+
+```
+//関数の宣言（シグネチャー）
+function double(value: number): number;
+function double(value: string): string;
+
+//any型で関数を作る
+function double(value: any): any {
+  // console.log(typeof value);
+  if (typeof value === "number") {
+    return value * 2;
+  } else {
+    return value + value;
+  }
+}
+
+console.log(double(100));//シグネチャーの中に含まれているので実行できる
+console.log(double("Go "));//シグネチャーの中に含まれているので実行できる
+// console.log(double(true)); //シグネチャーの中にbooleanがないとエラーになる
+```
+
+## セクション 4 クラスで型を使う
+
+### 37 クラスを作ってみる
+
+- class を作るときは最初の文字は大文字にする(person ではなく Person)
+- constructor は必ず呼び出される
+
+- my-first-class.ts
+
+```
+class Person {
+  name: string;
+  age: number;
+
+  //コンストラクタ―の戻り値は書かない（returnしないから）
+  //constructor():voidみたいなのはいらない
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+
+  //関数
+  profile(): string {
+    return `name:${this.name}, age:${this.age}`;
+  }
+}
+```
+
+### 38 アクセス修飾子
+
+- TypeScript 独自の仕様である。
+
+### 39
 
 ###
 
 ## セクション 5
+
+###
+
+###
+
+###
 
 ###
 
