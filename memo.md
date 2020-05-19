@@ -753,7 +753,7 @@ console.log(double("Go "));//シグネチャーの中に含まれているので
 
 ## セクション 4 クラスで型を使う
 
-### 37 クラスを作ってみる
+### 37 クラスを作ってみる(2020 年 5 月 19 日)
 
 - class を作るときは最初の文字は大文字にする(person ではなく Person)
 - constructor は必ず呼び出される
@@ -782,6 +782,12 @@ class Person {
 ### 38 アクセス修飾子
 
 - TypeScript 独自の仕様である。
+
+コピーコマンド
+
+```
+cp src/my-first-class.ts src/access-modifiers.ts
+```
 
 ### 39
 
