@@ -781,7 +781,7 @@ class Person {
 
 ### 38 アクセス修飾子
 
-- TypeScript 独自の仕様である。
+- アクセス修飾子は TypeScript 独自の仕様である。
 
 コピーコマンド
 
@@ -789,7 +789,128 @@ class Person {
 cp src/my-first-class.ts src/access-modifiers.ts
 ```
 
-### 39
+- メンバ変数にアクセス修飾子を付ける
+
+  - public : どこからでもアクセスできる
+
+  ```
+  class Person {
+  //メンバ変数
+  public name: string;
+  protected age: number;
+  protected nationality: string;
+  ・・・
+  }
+  let taro = new Person("makito",26,"Janan")
+  console.log(taro.name);//エラーでない
+  console.log(taro.age);//エラーでる
+  console.log(taro.nationality);//エラーでる
+  ```
+
+  - protected : 継承した子クラスでもアクセスできる
+
+  * private : そのクラス内からでしかアクセスできない
+    - method を作ってそこからならアクセスできる
+
+* access-modifiers.ts
+
+```
+export {};
+
+class Person {
+  //メンバ変数
+  public name: string;
+  // private age: number;
+  protected age: number;
+  protected nationality: string;
+
+  constructor(name: string, age: number, nationality: string) {
+    this.name = name;
+    this.age = age;
+    this.nationality = nationality;
+  }
+
+  profile(): string {
+    return `name:${this.name}, age:${this.age}`;
+  }
+}
+
+class Android extends Person {
+  constructor(name: string, age: number, nationality: string) {
+    super(name, age, nationality);
+  }
+  protected(): string {
+    return `name:${this.name}, age:${this.age}, nationality:${this.nationality}`;
+  }
+}
+
+let taro = new Person("Makito", 26, "Japan");
+
+console.log(taro.profile());
+console.log(taro.name);
+
+
+```
+
+### 39 コンストラクタ―をもっと使う
+
+- コンストラクタ―の中にアクセス修飾子を入れると自動で初期化ができる。
+- メンバや`this.name=name`みたいな物も書く必要がなくなる
+
+- more-constructor.ts
+
+```
+class Person {
+  //アクセス修飾子を付けることで初期化までできる。
+  constructor(public name: string, protected age: number) {}
+}
+
+const me = new Person("Makito", 26);
+console.log(me);
+```
+
+### 40 getter と setter
+
+研修で Java やっとってよかった。
+
+- メンバ変数は`_`で始める
+  - private \_name:string
+- getter,setter では`_`なしで書く
+  - `get name(){}` , `set name(name:string){}`(詳しくは下で)
+  ```
+  private _owner: string;
+  get owner() {
+    return this._owner;
+  }
+  ```
+
+* getter-and-setter.ts
+  getter と setter の書き方
+
+```
+get owner() {
+  return this._owner;
+}
+
+set secretNumber(secretNumber: number) {
+  this._secretNumber = secretNumber;
+}
+```
+
+使い方
+setter は secretNumber()みたいにはならない。
+変数\_secretNumber に関しては getter を作っていないのでアクセスできない
+
+```
+card.secretNumber = 1111111111; //セッター経由でアクセスできる
+// card._secretNumber = 1111111111; //privateなのでアクセスできない
+console.log(card.secretNumber); //undefined
+console.log(card.owner); //表示できる
+```
+
+###
+
+###
 
 ###
 
