@@ -908,11 +908,208 @@ console.log(card.secretNumber); //undefined
 console.log(card.owner); //表示できる
 ```
 
-###
+### 41 readonly 修飾子
 
-###
+- readonly.ts
 
-###
+  - public を入れてなくても動く。しかし public がない前提で readonly 修飾子を削除した場合、省略した初期化ができなくなる（これだとエラーが出る`constructor(owner: string) {}`）
+  - 読み取り専用なので値の書き変えはできない
+
+```
+class VisaCard {
+  constructor(public readonly owner: string) {
+  }
+}
+
+let myVisaCard = new VisaCard("makito");
+
+console.log(myVisaCard.owner);
+// myVisaCard.owner = "Mori"; //エラーが出る
+```
+
+### 42 静的メンバを定義
+
+- これまでやってきたのは動的メンバ
+- static 修飾子を付けて静的メンバを作成する
+
+メリット：インスタンスを作成する必要がなくなる（class を直接呼び出せる）
+
+- static-members.ts
+
+```
+class Me {
+  //静的に初期化
+  static isProgrammer: boolean = true;
+  static firstName: string = "Makito";
+  static lastName: string = "Mori";
+
+  static work() {
+    return `Hey, guys! This is ${this.lastName} Are you interested in TypeScript?`;
+    // return `Hey, guys! This is ${Me.lastName} Are you interested in TypeScript?`; //＜class名.メンバ変数＞でも書けるがclass名が変わったときにこのメソッドも変える必要があるからこのやり方はあまりやらない。
+  }
+}
+
+// クラス名.関数名でメソッドを呼び出せる
+console.log(Me.work());
+```
+
+### 43 namespacee
+
+違うフォルダ同じファイル名でも作ることができる
+→namespace=フォルダのような雰囲気
+
+- キーワード
+  - namespace
+  - export
+
+* Person クラスを 2 つ作りたい。
+
+- namespace.ts
+  `export`がないとその class の中でしか使えない!
+
+```
+namespace Japanese {
+  export namespace Tokyo {
+    export class Person {
+      constructor(public name: string) {}
+    }
+  }
+  export namespace Osaka {
+    export class Person {
+      constructor(public name: string) {}
+    }
+  }
+}
+/// アクセス方法
+const me = new Japanese.Tokyo.Person("Makito");
+console.log(me.name);
+
+const meOsaka = new Japanese.Osaka.Person("Moriやん");
+console.log(meOsaka.name);
+```
+
+### 44 継承
+
+- inheritance.ts
+  この書き方だと
+  constructor 、super の 2 行で name の初期化が 2 回行われていることになって醜い。
+
+```
+//サブクラス
+class Lion extends Animal {
+  constructor(public name: string, public speed: number) {
+    //super()は親クラスのコンストラクタ―
+    super(name);
+  }
+```
+
+親クラスでの初期化と子クラスの初期化を明示的に分ける
+
+- 復習：`constructor`の中で`public`とかを付けると初期化ができた
+
+```
+class Lion extends Animal {
+  public speed: number;
+  constructor(name: string, speed: number) {
+    //super()は親クラスのコンストラクタ―
+    super(name);
+    this.speed = speed;
+  }
+```
+
+- 親クラスのメソッドの呼び出し
+  super()を使う
+  super()は親クラスのコンストラクタ―
+
+```
+class Animal {
+  constructor(public name: string) {}
+  run(): string {
+    return `I can run`;
+  }
+}
+
+//サブクラス
+class Lion extends Animal {
+  public speed: number;
+  constructor(name: string, speed: number) {
+    //super()は親クラスのコンストラクタ―
+    super(name);
+    this.speed = speed;
+  }
+  run(): string {
+    const parentMessage = super.run(); //親クラスのrun methodを返す
+    return `${super.run()} ${this.speed}km/h`;
+  }
+}
+console.log(new Animal("Makito").run());
+console.log(new Lion("Mori", 80).run());
+```
+
+### 45 抽象メソッド
+
+- 抽象メソッド：必ずオーバーライドをする必要があるメソッド。処理の実態がない。
+  - シグネチャー；抽象メソッドの宣言のこと
+
+* キーワード：`abstract`
+
+  - 抽象クラスのメソッドは`{}`がいらないことに注意する
+  - `abstract`をつける
+
+* メリット：抽象クラスを作ることで子クラスでのメソッドの実装忘れが原理的にできなくなること
+
+- abstract-classes.ts
+
+```
+export {};
+
+abstract class Animal {
+  // {}がいらない
+  abstract cry(): string;
+}
+
+class Lion extends Animal {
+  //Animalクラスを継承する時はcryメソッド（抽象メソッド）を作成しないとエラーになる
+  cry() {
+    return `roar`;
+  }
+}
+```
+
+### 46 インターフェースリターンズ
+
+TypeScript では複数のクラスは継承できない（JAVA と一緒）
+しかし複数のインターフェースは継承っぽいこと（implements:実装）ができる
+
+- return-of-interfaces.ts
+  - インターフェースはメソッドの中身を書かない（子クラスで実装する）
+
+```
+interface Kenja {
+  ionazun(): void;
+}
+
+interface Senshi {
+  kougeki(): void;
+}
+
+//複数のインターフェースは継承できる
+class Jiro implements Kenja, Senshi {
+  ionazun(): void {
+    console.log("ionazun");
+  }
+
+  kougeki(): void {
+    console.log("kougeki");
+  }
+}
+
+//実装
+const jiro = new Jiro();
+jiro.kougeki();
+jiro.ionazun();
+
+```
 
 ## セクション 5
 
