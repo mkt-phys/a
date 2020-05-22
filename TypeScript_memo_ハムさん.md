@@ -908,7 +908,7 @@ console.log(card.secretNumber); //undefined
 console.log(card.owner); //表示できる
 ```
 
-### 41 readonly 修飾子
+### 41 readonly 修飾子(2020 年 5 月 21 日(木))
 
 - readonly.ts
 
@@ -1112,6 +1112,80 @@ jiro.ionazun();
 ```
 
 ## セクション 5
+
+### 47 型の互換性
+
+TypeScript 独自の概念
+
+復習：文字列リテラル・・・入力できる文字が制限された型
+参考：http://js.studio-kingdom.com/typescript/handbook/advanced_types#string_literal_types
+このリンクに書いてあるプログラム抜粋
+`Easing`という型は`ease-in`か`ease-out`か`ease-in-out`しか値を持てない
+
+```
+type Easing = "ease-in" | "ease-out" | "ease-in-out";
+class UIElement {
+    animate(dx: number, dy: number, easing: Easing) {
+・・・
+    }
+let button = new UIElement();
+button.animate(0, 0, "ease-in");
+button.animate(0, 0, "uneasy"); // エラー: "uneasy"は許可されません
+```
+
+構造的部分型
+
+- type-compatibility.ts
+
+```
+
+interface Animal {
+  age: number;
+  name: string;
+}
+
+class Person {
+  constructor(public age: number, public name: string) {}
+}
+
+let me: Animal;
+me = new Person(26, "Makito");
+```
+
+interface のメンバとと class の引数が一致するなら一番下のように宣言できる。
+→ 何のためにやるかは不明
+
+### 48 ジェネリクス(2020 年 5 月 22 日(金))
+
+同じ操作をするけど型が違うメソッドを共通化できないか。
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
+
+###
 
 ###
 
