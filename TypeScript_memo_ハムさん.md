@@ -1159,42 +1159,138 @@ interface のメンバとと class の引数が一致するなら一番下のよ
 
 同じ操作をするけど型が違うメソッドを共通化できないか。
 
-###
+- generics.ts
 
-###
+- ジェネリクス関数
+  - `<T>`で一般的な型を表す
+  - `<T>`で書かれた内容が後の`T`にコピーされる
 
-###
+```
+const echo = <T>(arg: T): T => {
+  return arg;
+};
 
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
-
-###
+console.log(echo<number>(180));
+console.log(echo<string>("mori"));
+console.log(echo<boolean>(true));
 
 ```
 
+- ジェネリクスクラス
+  - `<T>`で書かれた内容が後の`T`にコピーされる
+
+```
+class Mirror<T> {
+  constructor(public value: T) {}
+
+  echo(): T {
+    return this.value;
+  }
+}
+
+console.log(new Mirror<number>(123).echo());
+console.log(new Mirror<string>("Hello").echo());
+console.log(new Mirror<boolean>(true).echo());
+
+```
+
+### 49 型アサーション
+
+別の型に変換する
+→ 互換性がある型のみ変換できる(any から number とかはできる)
+→string 型から number 型とかは無理
+
+使いどころはよくわからん
+
+- type-assertions.ts
+  - `as`を使う方法
+  - `<>`を使う方法（非推奨）
+
+```
+let name: any = "makito";
+
+// let length = name.length as number;
+let length = (name as string).length;
+// let length = (<string>name).length; //非推奨：jsxで混同する
+// length = "aa";//エラー
+```
+
+- string 型から number 型にしたい時
+  これを乱発すると何のための型かよくわからんけど。
+
+参考：TypeScript 実践プログラミング p12
+
+```
+let name: string ="Mori"
+
+//エラー
+let bedrooms: number = <number> name;
+
+//成功
+let bedrooms: number = <number><any> name;
+```
+
+### 50 const アサーション
+
+49 の型アサーションとは全然違うもの
+
+- as-const.ts
+  `as const`を付けることで let で宣言した変数も const になる。使いどころはよくわからん。
+
+```
+let nickname = "Ham" as const;
+nickname = "Ham";
+// nickname= "makito"//エラー
+
+```
+
+オブジェクトの場合は有用性がありそう。オブジェクトのプロパティを全て readonly にしたいとき 1 つずつ readonly を付けるのはめんどくさい。そのときに as const を使う
+
+```
+let profile = {
+  name: "makito",
+  height: 180,
+} as const;
+
+// profile.name = "Ham"; //エラー
+// profile.height = 190;　//エラー
+
+```
+
+### 51 Nullable Types
+
+null を許容する型を作る
+union 型を使う
+
+- nullable-types.ts
+
+```
+let profile: { name: string; age: number | null } = {
+  name: "makito",
+  age: null,
+};
+
+```
+
+### 52 インデックスシグネチャ
+
+オブジェクトの初期化時に設定していない key の値を代入する
+
+- index-signature.ts
+  ?`[index: string]`は`string`限定なのか。
+
+```
+interface Profile {
+  name: string;
+  underTwenty: boolean;
+  [index: string]: number | string | boolean;
+}
+
+let profile: Profile = { name: "tintin", underTwenty: false };
+
+profile.name = "makito";
+profile.age = 26;
+profile.nationality = "Japan";
+
+console.log({ profile });
 ```

@@ -1,9 +1,31 @@
 export {};
 
-const echo = (arg: number): number => {
+// const echo = (arg: number): number => {
+//   return arg;
+// };
+
+// const echo = (arg: string): string => {
+//   return arg;
+// };
+
+//ジェネリクスの関数
+const echo = <T>(arg: T): T => {
   return arg;
 };
 
-const echo = (arg: string): string => {
-  return arg;
-};
+console.log(echo<number>(180));
+console.log(echo<string>("mori"));
+console.log(echo<boolean>(true));
+
+//ジェネリクスのクラス
+class Mirror<T> {
+  constructor(public value: T) {}
+
+  echo(): T {
+    return this.value;
+  }
+}
+
+console.log(new Mirror<number>(123).echo());
+console.log(new Mirror<string>("Hello").echo());
+console.log(new Mirror<boolean>(true).echo());
