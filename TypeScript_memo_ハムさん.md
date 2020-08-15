@@ -1301,7 +1301,36 @@ console.log({ profile });
 
 ### 66 GitHub でリポジトリ作成
 
-### 67
+### 67 React で型アノテーション
+
+インターフェースで型アノテーション
+
+インターフェースの復習
+
+```js
+//インターフェースを使ったやり方(イコールがいらない)
+interface ObjectInterface {
+  name: string;
+  age: number;
+}
+
+//エイリアスと同様に`:~~~`とする。
+let object: ObjectInterface = {
+  name: 'Makito',
+  age: 26,
+};
+```
+
+```js
+interface AppProps {
+  message: string;
+}
+
+const App = ({ message }: AppProps) => {
+  // console.log(props);
+  return <div>{message}</div>;
+};
+```
 
 ### 68
 
