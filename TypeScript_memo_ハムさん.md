@@ -1363,3 +1363,22 @@ App.defaultProps = {
 ```
 
 ### 69 useState と型制約
+
+`React.FunctionComponent`と`React.FC`は一緒
+
+```js
+const Counter: React.FunctionComponent<{}> = () => {
+const Counter: React.FC<{}> = () => {
+```
+
+- Counter.tsx
+
+  - useState での型アノテーション
+  - value が number 型になる。
+  - setValue はすでに型が決まっている
+
+```js
+const [value, setValue] = useState < number > 0;
+```
+
+### 70 useRef と useEffect を使ってみよう
