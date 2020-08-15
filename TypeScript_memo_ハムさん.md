@@ -1,6 +1,6 @@
 # udemy TypeScript はむさん
 
-### セクション 1
+## セクション 1
 
 ### 4 typescript とは(2020 年 5 月 17 日)
 
@@ -1294,3 +1294,15 @@ profile.nationality = "Japan";
 
 console.log({ profile });
 ```
+
+## セクション 7 React と TypeScript
+
+### 65
+
+### 66 GitHub でリポジトリ作成
+
+### 67
+
+### 68
+
+### 69
