@@ -1382,3 +1382,29 @@ const [value, setValue] = useState < number > 0;
 ```
 
 ### 70 useRef と useEffect を使ってみよう
+
+- `useRef`の返り値はオブジェクト(key は`current`)
+- useEffect はレンダーするたびに実行(第 2 引数に何も入れなければ)
+
+* Counter.tsx
+
+```js
+const renderTimes = useRef < number > 0;
+useEffect(() => {
+  console.log(renderTimes);
+  renderTimes.current = renderTimes.current + 1;
+});
+```
+
+- ところで useRef とは?
+  参考：https://qiita.com/seya/items/6bbfa3f9d489809ccb2c
+
+ここによると
+
+> useRef で値を保持することの特性は 「再描画を発生させないこと」 これに尽きます。
+
+ということらしい。何に使うんや(笑)
+
+[こいつ](https://ja.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables9
+
+によるとタイマーの ID のセッティングに使われるみたい。確かに TimerId は描画には必要ないけど止めるときに必要やな。
