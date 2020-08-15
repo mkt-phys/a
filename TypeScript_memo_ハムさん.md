@@ -1332,6 +1332,34 @@ const App = ({ message }: AppProps) => {
 };
 ```
 
-### 68
+### 68 関数コンポーネント
 
-### 69
+- 型アノテーションをする
+
+  - interface を使ってオブジェクトの型アノテーションを行う。
+  - `React.FunctionComponent<インターフェース名>`で書く。
+
+  ```js
+  interface AppProps {
+    message?: string; //?を付けてオプショナルな引数にする
+  }
+
+  const App: React.FunctionComponent<AppProps> = ({ message }: AppProps) => {
+    return <div>{message}</div>;
+  };
+  ```
+
+- デフォルトの props を設定する
+
+- 関数コンポーネント.defaultProps で定義できる。
+- props で message を受け取っていなかったら(index.ts で message を渡していなかったら)デフォルトで message に Hello,defaultProps!が入る
+
+```js
+const App = (props) => {};
+
+App.defaultProps = {
+  message: 'Hello,defaultProps!', //
+};
+```
+
+### 69 useState と型制約
