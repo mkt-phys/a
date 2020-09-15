@@ -1407,4 +1407,25 @@ useEffect(() => {
 
 [こいつ](https://ja.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables9
 
-によるとタイマーの ID のセッティングに使われるみたい。確かに TimerId は描画には必要ないけど止めるときに必要やな。
+によるとタイマーの ID のセッティングに使われるみたい。確かに TimerId はブラウザに描画する必要はないけどタイマーを止めるときに必要やな。
+
+useRef の型を見つけるためにわざわざ定義まで見に行かなあかんのか。
+
+めんどくさすぎる。
+
+- Counter.tsx
+
+`null!`の後に`!`がつくけど理由はいまいちわからん。ここで詳しく調べて理解する必要もないかな。
+
+```
+const ref = useRef<HTMLInputElement>(null!);
+  const focusInput = () => {
+    // const current = ref.current;
+    // current !== null && current.focus();
+    // ref.current?.focus(); //?を付けることでnullだったら実行しない
+    ref.current.focus();
+  };
+<input ref={ref} type="text" />
+<button onClick={focusInput}>Click Me!</button>
+
+```
